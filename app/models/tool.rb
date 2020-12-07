@@ -1,3 +1,3 @@
 class Tool < ActiveRecord::Base
-    belongs_to :job
+    belongs_to :jobs # is nil, not empty array
 end

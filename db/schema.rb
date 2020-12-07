@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201206002910) do
+ActiveRecord::Schema.define(version: 20201207231928) do
 
   create_table "jobs", force: :cascade do |t|
     t.string   "location"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20201206002910) do
     t.string  "name"
     t.integer "age"
     t.integer "years_experience"
+    t.string  "password_digest"
   end
 
 end
