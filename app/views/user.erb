@@ -1,6 +1,10 @@
 <% if @user.id %>
     <h1><%= "Welcome #{@user.name}!"%></h1>
 
+    <form method="post" action="/user/logout">
+        <p><input type="submit" value="Log Out"></p>
+    </form>
+
     <form method="post" action="/user/<%=@user.id%>">
         <input type="hidden" name="_method" value="delete">
         <p><input type="submit" value="Delete Account"></p>
