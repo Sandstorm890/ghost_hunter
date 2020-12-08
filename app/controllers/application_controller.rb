@@ -11,6 +11,10 @@ class ApplicationController < Sinatra::Base
     erb :index
   end
 
+  post "/user" do
+    erb :user
+  end
+
   get "/user/new" do
       erb :user_new
   end
