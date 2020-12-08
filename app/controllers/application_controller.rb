@@ -3,6 +3,8 @@ require './config/environment'
 class ApplicationController < Sinatra::Base
 
   configure do
+    enable :sessions
+    set :session_secret, "secret" # CHANGE THIS TO SOMETHING MORE SECURE
     set :public_folder, 'public'
     set :views, 'app/views'
   end
@@ -16,6 +18,7 @@ class ApplicationController < Sinatra::Base
     
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
+      # binding.pry
       redirect "/user/#{user.id}"
     else
       redirect "/user/new"
@@ -32,8 +35,13 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/user/:id" do
-    @user = User.find(params[:id])
-    erb :user
+    # binding.pry
+    if session[:user_id] == params[:id].to_i 
+      @user = User.find(params[:id])
+      erb :user
+    else
+      redirect "/user/#{session[:user_id]}"
+    end
   end
 
   post "/user/new" do 
