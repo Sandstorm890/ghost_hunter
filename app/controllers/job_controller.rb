@@ -24,11 +24,12 @@ class JobController < Sinatra::Base
     end
 
     delete "/job/:id" do
-        job = UserJob.find_by(job_id: params[:id])
+        @job = UserJob.find_by(job_id: params[:id])
         # binding.pry
-        if job.user_id == session[:user_id]
-            found_job = Job.find(job.job_id)
-            found_job.delete
+        if Job.find(@job.job_id) && @job.user_id == session[:user_id]
+            # binding.pry
+            Job.find(@job.job_id).delete
+            @job.delete
         end
         redirect "/user/#{session[:user_id]}"
     end

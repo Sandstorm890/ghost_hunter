@@ -46,6 +46,7 @@ class UserController < Sinatra::Base
   delete "/user/:id" do
     user = User.find(params[:id])
     user.delete
+  
     redirect "/"
   end
 
