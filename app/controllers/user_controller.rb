@@ -9,6 +9,10 @@ class UserController < Sinatra::Base
     set :views, 'app/views/user_views'
   end
 
+  get "/" do 
+    erb :index
+  end
+
   post "/user" do
     user = User.find_by(username: params[:username])
     
@@ -44,10 +48,14 @@ class UserController < Sinatra::Base
   end
 
   delete "/user/:id" do
-    user = User.find(params[:id])
-    user.delete
-  
-    redirect "/"
+    
+    if session[:user_id] == params[:id].to_i
+      user = User.find(params[:id])
+      user.delete
+      redirect "/"
+    else
+      redirect "/failure"
+    end
   end
 
 end
