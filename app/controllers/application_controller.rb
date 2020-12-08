@@ -11,12 +11,27 @@ class ApplicationController < Sinatra::Base
     erb :index
   end
 
+
+
   post "/user" do
-    erb :user
+    # binding.pry
+    user = User.find_by(name: params[:name])
+    
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect "/user/#{user.id}"
+    else
+      redirect "/user/new"
+    end
   end
 
   get "/user/new" do
       erb :user_new
+  end
+
+  post "/user/logout" do
+    session.clear
+    redirect "/"
   end
 
   get "/user/:id" do
