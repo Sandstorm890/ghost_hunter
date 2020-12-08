@@ -2,6 +2,21 @@
     <h1><%= "Welcome #{@user.name}!"%></h1><br>
 
     <p>Username: <%=@user.username%></p><br>
+    <p>Current Jobs:</p>
+    <%if @user.jobs != []%>
+        <p><% UserJob.all.each_with_index do |job, i| %>
+            <% binding.pry%>
+            <% if job.user_id == session[:user_id] %>
+                <p><%="#{i}. "%><a href="/jobs/<%=job.job_id%>"><%= "#{Job.find(job.job_id).location}" %></a></p>
+            <% end %>
+        <% end %>
+    <%else%>
+        <p>No Active Jobs</p>
+    <% end %>
+
+    <form method="get" action="/job/new">
+        <p><input type="submit" value="Create Job"></p>
+    </form>
 
     <form method="post" action="/user/logout">
         <p><input type="submit" value="Log Out"></p>

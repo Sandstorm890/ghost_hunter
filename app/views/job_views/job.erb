@@ -1,0 +1,7 @@
+<h1><%=@job.location%></h1><br><br>
+<p>Difficulty: <%=@job.difficulty%></p>
+<p>Date: <%=@job.date%></p><br><br>
+<form method="post" action="/job/<%=@job.id%>">
+    <input type="hidden" name="_method" value="delete">
+    <p><input type="submit" value="Delete Job"></p>
+</form>
