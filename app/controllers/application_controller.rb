@@ -11,11 +11,8 @@ class ApplicationController < Sinatra::Base
     erb :index
   end
 
-
-
   post "/user" do
-    # binding.pry
-    user = User.find_by(name: params[:name])
+    user = User.find_by(username: params[:username])
     
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
@@ -40,8 +37,8 @@ class ApplicationController < Sinatra::Base
   end
 
   post "/user/new" do 
-    @user = User.create(params)
-    erb :user
+    user = User.create(params)
+    redirect "/user/#{user.id}"
   end
 
   delete "/user/:id" do

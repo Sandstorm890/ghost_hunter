@@ -1,5 +1,7 @@
 <% if @user.id %>
-    <h1><%= "Welcome #{@user.name}!"%></h1>
+    <h1><%= "Welcome #{@user.name}!"%></h1><br>
+
+    <p>Username: <%=@user.username%></p><br>
 
     <form method="post" action="/user/logout">
         <p><input type="submit" value="Log Out"></p>
