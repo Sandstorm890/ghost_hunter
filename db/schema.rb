@@ -11,12 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201208003511) do
+ActiveRecord::Schema.define(version: 20201209003359) do
 
   create_table "jobs", force: :cascade do |t|
     t.string   "location"
     t.string   "difficulty"
     t.datetime "date"
+    t.string   "ghost_type"
+    t.text     "description"
   end
 
   create_table "tools", force: :cascade do |t|
