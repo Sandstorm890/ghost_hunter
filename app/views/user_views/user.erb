@@ -3,15 +3,20 @@
 
     <p>Username: <%=@user.username%></p><br>
     <p>Current Jobs:</p>
+    
     <%if @user.jobs != []%>
-        <p><% UserJob.all.each_with_index do |job, i| %>
+        <% index = 0 %>
+        <p><% UserJob.all.each do |job| %>
+            
             <% if job.user_id == session[:user_id] %>
-                <p><%="#{i+1}. "%><a href="/jobs/<%=job.job_id%>"><%= "#{Job.find(job.job_id).location}" %></a></p>
+                <%=index+=1%>. <a href="/jobs/<%=job.job_id%>"> <%= "#{Job.find(job.job_id).location}" %></a><br>
             <% end %>
+           
         <% end %>
     <%else%>
-        <p>No Active Jobs</p>
+        <br><p>No Active Jobs</p><br>
     <% end %>
+    
 
     <form method="get" action="/job/new">
         <p><input type="submit" value="Create Job"></p>
