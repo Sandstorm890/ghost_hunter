@@ -1,0 +1,12 @@
+<h1>Edit Job</h1>
+
+<form method="POST" action="/job/<%=@job.id%>">
+    <input type="hidden" name="_method" value="patch">
+    <p>Location: <input type="text" name="location" value=<%=@job.location%>></p>
+    <p>Difficulty: <input type="text" name="difficulty" value=<%=@job.difficulty%>></p>
+    <p>Ghost Type: <input type="text" name="ghost_type" value=<%=@job.ghost_type%>></p>
+    <p>Date: <input type="date" name="date" value=<%=@job.date%>></p>
+    <p>Description</p>
+    <p><textarea name="description"><%=@job.description%></textarea></p>
+    <input type="submit" value="Update Job">
+</form>
