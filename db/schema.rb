@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201209003359) do
+ActiveRecord::Schema.define(version: 20201211211419) do
 
   create_table "jobs", force: :cascade do |t|
     t.string   "location"
@@ -19,12 +19,6 @@ ActiveRecord::Schema.define(version: 20201209003359) do
     t.datetime "date"
     t.string   "ghost_type"
     t.text     "description"
-  end
-
-  create_table "tools", force: :cascade do |t|
-    t.string  "name"
-    t.integer "qantity"
-    t.text    "condition"
   end
 
   create_table "user_jobs", force: :cascade do |t|
