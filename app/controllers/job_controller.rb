@@ -46,10 +46,4 @@ class JobController < Sinatra::Base
         @job = Job.find(params[:id])
         erb :job
     end
-
-    
-
-    
-
-    
 end
