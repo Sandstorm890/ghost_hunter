@@ -25,12 +25,22 @@ class UserController < Sinatra::Base
   end
 
   get "/user/new" do
-      erb :user_new
+    erb :user_new
   end
 
   post "/user/logout" do
     session.clear
     redirect "/"
+  end
+
+  post "/user/new" do 
+    if User.all.map{|user| user.username}.include?(params[:username])
+      erb :failure
+    else
+      user = User.create(params)
+      session[:user_id] = user.id
+      redirect "/user/#{user.id}"
+    end
   end
 
   get "/user/:id" do
@@ -42,20 +52,18 @@ class UserController < Sinatra::Base
     end
   end
 
-  post "/user/new" do 
-    user = User.create(params)
-    redirect "/user/#{user.id}"
-  end
-
   delete "/user/:id" do
-    
     if session[:user_id] == params[:id].to_i
       user = User.find(params[:id])
+      Job.all.each do |job|
+        if job.user_ids[0] == session[:user_id]
+          job.delete
+        end
+      end
       user.delete
       redirect "/"
     else
       redirect "/failure"
     end
   end
-
 end
