@@ -1,4 +1,9 @@
-<h1><%=@job.location%></h1><br><br>
+<h1><%=@job.location%></h1>
+<% if Helpers.user_job(@job.id).user_id == session[:user_id]%>
+    <h3>You posted this job</h3><br><br>
+<% else %>
+    <h3>Posted by: <%=@job.users[0].name %></h3><br><br>
+<% end %>
 <p>Difficulty: <%=@job.difficulty%></p>
 <p>Ghost Type: <%=@job.ghost_type%>
 <p>Date: <%=@job.date%></p>
@@ -8,10 +13,12 @@
 <form method="get" action="/user/<%=session[:user_id]%>">
     <p><input type="submit" value="Home"></p>
 </form>
-<form method="get" action="/jobs/<%=@job.id%>/edit">
-    <p><input type="submit" value="Edit Job"></p>
-</form>
-<form method="post" action="/job/<%=@job.id%>">
-    <input type="hidden" name="_method" value="delete">
-    <p><input type="submit" value="Delete Job"></p>
-</form>
+<% if Helpers.user_job(@job.id).user_id == session[:user_id]%>
+    <form method="get" action="/jobs/<%=@job.id%>/edit">
+        <p><input type="submit" value="Edit Job"></p>
+    </form>
+    <form method="post" action="/job/<%=@job.id%>">
+        <input type="hidden" name="_method" value="delete">
+        <p><input type="submit" value="Delete Job"></p>
+    </form>
+<% end %>
