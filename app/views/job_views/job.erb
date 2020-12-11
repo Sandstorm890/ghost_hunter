@@ -2,7 +2,7 @@
 <% if Helpers.user_job(@job.id).user_id == session[:user_id]%>
     <h3>You posted this job</h3><br><br>
 <% else %>
-    <h3>Posted by: <%=@job.users[0].name %></h3><br><br>
+    <h3>Posted by: <%=@job.users[0].username %></h3><br><br>
 <% end %>
 <p>Difficulty: <%=@job.difficulty%></p>
 <p>Ghost Type: <%=@job.ghost_type%>
