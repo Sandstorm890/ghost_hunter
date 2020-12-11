@@ -2,6 +2,7 @@ ENV['SINATRA_ENV'] ||= "development"
 
 require 'bundler/setup'
 require 'pry'
+require 'sanitize'
 Bundler.require(:default, ENV['SINATRA_ENV'])
 
 ActiveRecord::Base.establish_connection(
@@ -11,4 +12,5 @@ ActiveRecord::Base.establish_connection(
 
 require './app/controllers/application_controller'
 require './app/controllers/user_controller'
+require './app/helpers/helpers.rb'
 require_all 'app'
