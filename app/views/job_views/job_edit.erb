@@ -1,12 +1,19 @@
 <h1>Edit Job</h1>
-
-<form method="POST" action="/job/<%=@job.id%>">
-    <input type="hidden" name="_method" value="patch">
-    <p>Location: <input type="text" name="location" value=<%=@job.location%>></p>
-    <p>Difficulty: <input type="text" name="difficulty" value=<%=@job.difficulty%>></p>
-    <p>Ghost Type: <input type="text" name="ghost_type" value=<%=@job.ghost_type%>></p>
-    <p>Date: <input type="date" name="date" value=<%=@job.date%>></p>
-    <p>Description</p>
-    <p><textarea name="description"><%=@job.description%></textarea></p>
-    <input type="submit" value="Update Job">
-</form>
+<% if Helpers.is_logged_in?(session)%>
+    <form method="POST" action="/job/<%=@job.id%>">
+        <input type="hidden" name="_method" value="patch">
+        <p>Location: <input type="text" name="location" value=<%=@job.location%>></p>
+        <p>Difficulty: <select name="difficulty" value=<%=@job.difficulty%>>
+            <option value="Amateur">Amateur</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Professional">Professional</option>
+        </select></p>
+        <p>Ghost Type: <input type="text" name="ghost_type" value=<%=@job.ghost_type%>></p>
+        <p>Date: <input type="date" name="date" value=<%=@job.date%>></p>
+        <p>Description</p>
+        <p><textarea name="description"><%=@job.description%></textarea></p>
+        <input type="submit" value="Update Job">
+    </form>
+<% else %>
+    <p>There was an error. Please <a href="/">sign in</a> and try again</p>
+<% end %>
