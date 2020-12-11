@@ -14,8 +14,12 @@ class JobController < Sinatra::Base
     end
 
     get "/jobs/:id/edit" do
-        @job = Job.find(params[:id])
-        erb :job_edit
+        if UserJob.find_by(job_id: params[:id]).user_id == session[:user_id]
+            @job = Job.find(params[:id])
+            erb :job_edit
+        else
+            erb :"../failure"
+        end
     end
 
     get "/job/new" do
