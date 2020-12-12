@@ -37,7 +37,12 @@ class UserController < Sinatra::Base
     if User.all.map{|user| user.username}.include?(params[:username])
       erb :failure
     else
-      user = User.create(params)
+      name = Sanitize.clean(params[:name])
+      age = Sanitize.clean(params[:age])
+      years_experience = Sanitize.clean(params[:years_experience])
+      username = Sanitize.clean(params[:username])
+      password = Sanitize.clean(params[:password])
+      user = User.create(name: name, age: age, years_experience: years_experience, username: username, password: password)
       session[:user_id] = user.id
       redirect "/user/#{user.id}"
     end
@@ -54,9 +59,15 @@ class UserController < Sinatra::Base
 
   delete "/user/:id" do
     if session[:user_id] == params[:id].to_i
-      user = User.find(params[:id])
+      user = Helpers.current_user(session)
+      
       Job.all.each do |job|
         if job.user_ids[0] == session[:user_id]
+          job.delete
+        end
+      end
+      UserJob.all.each do |job|
+        if job.user_id == user.id
           job.delete
         end
       end
