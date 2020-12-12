@@ -17,7 +17,7 @@
     <form method="get" action="/jobs/<%=@job.id%>/edit">
         <p><input type="submit" value="Edit Job"></p>
     </form>
-    <form method="post" action="/job/<%=@job.id%>">
+    <form method="post" action="/jobs/<%=@job.id%>">
         <input type="hidden" name="_method" value="delete">
         <p><input type="submit" value="Delete Job"></p>
     </form>

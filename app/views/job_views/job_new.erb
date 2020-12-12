@@ -1,7 +1,7 @@
 <h1>Create a New Job</h1>
 
 <% if Helpers.is_logged_in?(session)%>
-    <form method="POST" action="/job">
+    <form method="POST" action="/jobs">
         <p>Location: <input type="text" name="location"></p>
         <p>Difficulty: <select name="difficulty">
             <option value="Amateur">Amateur</option>

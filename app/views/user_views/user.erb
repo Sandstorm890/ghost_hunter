@@ -9,7 +9,7 @@
         <p><% UserJob.all.each do |job| %>
             
             <% if job.user_id == session[:user_id] %>
-                <%=index+=1%>. <a href="/jobs/<%=job.job_id%>"> <%= "#{Job.find(job.job_id).location}" %></a><br>
+                <%=index+=1%>. <a href="/jobs/<%=job.job_id%>"> <%= "#{Job.find_by(id: job.job_id).location}" %></a><br>
             <% end %>
            
         <% end %>
@@ -21,13 +21,13 @@
     <p><% UserJob.all.each do |job| %>
         
         <% if job.user_id != session[:user_id] %>
-            <%=index+=1%>. <a href="/jobs/<%=job.job_id%>"> <%= "#{Job.find(job.job_id).location}" %></a><br>
+            <%=index+=1%>. <a href="/jobs/<%=job.job_id%>"> <%= "#{Job.find_by(id: job.job_id).location}" %></a><br>
         <% end %>
         
     <% end %>
     
 
-    <form method="get" action="/job/new">
+    <form method="get" action="/jobs/new">
         <p><input type="submit" value="Create Job"></p>
     </form>
 
