@@ -6,7 +6,7 @@ class JobController < Sinatra::Base
         enable :sessions
         set :session_secret, SESSION_SECRET
         set :public_folder, 'public'
-        set :views, 'app/views/job_views', 'app/views'
+        set :views, 'app/views/job_views'
     end
 
     get "/jobs" do
@@ -50,7 +50,6 @@ class JobController < Sinatra::Base
     end
 
     get "/jobs/:id" do
-        # binding.pry
         if Job.find_by(id: params[:id])
             @job = Job.find(params[:id])
             erb :job
