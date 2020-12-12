@@ -12,6 +12,7 @@ gem 'pry'
 gem 'bcrypt'
 gem 'tux'
 gem 'sanitize'
+gem 'securerandom'
 
 group :test do
   gem 'rspec'
