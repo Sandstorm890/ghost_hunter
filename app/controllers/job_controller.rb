@@ -22,22 +22,25 @@ class JobController < Sinatra::Base
         end
     end
 
-    get "/job/new" do
+    get "/jobs/new" do
         erb :job_new
     end
     
-    post "/job" do
-        job = Job.create(params)
+    post "/jobs" do
+        location = Sanitize.clean(params[:location])
+        difficulty = Sanitize.clean(params[:difficulty])
+        description = Sanitize.clean(params[:description])
+        job = Job.create(location: location, difficulty: difficulty, ghost_type: params[:ghost_type], date: params[:date], description: description)
         UserJob.create(job_id: job.id, user_id: session[:user_id])
         redirect "/user/#{session[:user_id]}"
     end
 
-    patch "/job/:id" do 
+    patch "/jobs/:id" do 
         Job.find(params[:id]).update(location: params[:location], difficulty: params[:difficulty], date: params[:date], ghost_type: params[:ghost_type], description: params[:description] )
         redirect "/jobs/#{params[:id]}"
     end
 
-    delete "/job/:id" do
+    delete "/jobs/:id" do
         @job = UserJob.find_by(job_id: params[:id])
         if Job.find(@job.job_id) && @job.user_id == session[:user_id]
             Job.find(@job.job_id).delete
@@ -47,7 +50,12 @@ class JobController < Sinatra::Base
     end
 
     get "/jobs/:id" do
-        @job = Job.find(params[:id])
-        erb :job
+        # binding.pry
+        if Job.find_by(id: params[:id])
+            @job = Job.find(params[:id])
+            erb :job
+        else
+            erb :"../failure"
+        end
     end
 end
