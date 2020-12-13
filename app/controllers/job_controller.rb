@@ -36,7 +36,10 @@ class JobController < Sinatra::Base
     end
 
     patch "/jobs/:id" do 
-        Job.find(params[:id]).update(location: params[:location], difficulty: params[:difficulty], date: params[:date], ghost_type: params[:ghost_type], description: params[:description] )
+        location = Sanitize.clean(params[:location])
+        difficulty = Sanitize.clean(params[:difficulty])
+        description = Sanitize.clean(params[:description])
+        Job.find(params[:id]).update(location: location, difficulty: difficulty, date: params[:date], ghost_type: params[:ghost_type], description: description)
         redirect "/jobs/#{params[:id]}"
     end
 
