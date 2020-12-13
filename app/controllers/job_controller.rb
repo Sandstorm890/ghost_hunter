@@ -9,10 +9,6 @@ class JobController < Sinatra::Base
         set :views, 'app/views/job_views'
     end
 
-    get "/jobs" do
-        erb :index
-    end
-
     get "/jobs/:id/edit" do
         if UserJob.find_by(job_id: params[:id]).user_id == session[:user_id]
             @job = Job.find(params[:id])
