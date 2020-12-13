@@ -2,7 +2,7 @@
 <% if Helpers.is_logged_in?(session)%>
     <form method="POST" action="/jobs/<%=@job.id%>">
         <input type="hidden" name="_method" value="patch">
-        <p>Location: <input type="text" name="location" value=<%=@job.location%>></p>
+        <p>Location: <input type="text" name="location" value="<%=@job.location%>"></p>
         <p>Difficulty: <select name="difficulty" value=<%=@job.difficulty%>>
             <option value="Amateur">Amateur</option>
             <option value="Intermediate">Intermediate</option>
