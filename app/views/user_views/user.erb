@@ -1,46 +1,43 @@
-<% if logged_in? %>
-    <h1><%= "Welcome, #{@user.name}!"%></h1><br>
+<h1><%= "Welcome, #{@user.name}!"%></h1><br>
 
-    <p>Username: <%=@user.username%></p><br>
-    <h2>Your Current Jobs:</h2>
-    
-    <%if @user.jobs != []%>
+<p>Username: <%=@user.username%></p><br>
+<h2>Your Current Jobs:</h2>
 
-        <% index = 0 %>
-        <p><% UserJob.all.each do |job| %>
-            <%# clean this up%>
-            <% if job.user_id == session[:user_id] %>
-                <%=index+=1%>. <a href="/jobs/<%=job.job_id%>"> <%= "#{Job.find_by(id: job.job_id).location}" %></a><br>
-            <% end %>
-            
-           
-        <% end %>
-    <%else%>
-        <br><p>No Active Jobs</p><br>
-    <% end %>
-    <h2>Other Jobs: </h2><br>
+<%if @user.jobs != []%>
+
     <% index = 0 %>
     <p><% UserJob.all.each do |job| %>
-        
-        <% if job.user_id != session[:user_id] %>
+        <%# clean this up%>
+        <% if job.user_id == session[:user_id] %>
             <%=index+=1%>. <a href="/jobs/<%=job.job_id%>"> <%= "#{Job.find_by(id: job.job_id).location}" %></a><br>
         <% end %>
         
+        
+    <% end %>
+<%else%>
+    <br><p>No Active Jobs</p><br>
+<% end %>
+<h2>Other Jobs: </h2><br>
+<% index = 0 %>
+<p><% UserJob.all.each do |job| %>
+    
+    <% if job.user_id != session[:user_id] %>
+        <%=index+=1%>. <a href="/jobs/<%=job.job_id%>"> <%= "#{Job.find_by(id: job.job_id).location}" %></a><br>
     <% end %>
     
-
-    <form method="get" action="/jobs/new">
-        <p><input type="submit" value="Create Job"></p>
-    </form>
-
-    <form method="post" action="/user/logout">
-        <p><input type="submit" value="Log Out"></p>
-    </form>
-
-    <form method="post" action="/user/<%=@user.id%>">
-        <input type="hidden" name="_method" value="delete">
-        <p><input type="submit" value="Delete Account"></p>
-    </form>
-<% else %>
-    <p>Please <a href="/">sign in</a> to view your profile</p>
 <% end %>
+
+
+<form method="get" action="/jobs/new">
+    <p><input type="submit" value="Create Job"></p>
+</form>
+
+<form method="post" action="/user/logout">
+    <p><input type="submit" value="Log Out"></p>
+</form>
+
+<form method="post" action="/user/<%=@user.id%>">
+    <input type="hidden" name="_method" value="delete">
+    <p><input type="submit" value="Delete Account"></p>
+</form>
+

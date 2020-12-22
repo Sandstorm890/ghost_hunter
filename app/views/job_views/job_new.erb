@@ -1,20 +1,16 @@
-<h1>Create a New Job</h1>
+<h1>Create a New Job</h1><br>
 
-<% if Helpers.is_logged_in?(session)%>
-    <form method="POST" action="/jobs">
-        <p>Location: <input type="text" name="location"></p>
-        <p>Difficulty: <select name="difficulty">
-            <option value="Amateur">Amateur</option>
-            <option value="Intermediate">Intermediate</option>
-            <option value="Professional">Professional</option>
-        </select></p>
-        
-        <p>Ghost Type: <input type="text" name="ghost_type"></p>
-        <p>Date: <input type="date" name="date"></p>
-        <p>Description: </p>
-        <p><textarea name="description"></textarea></p>
-        <input type="submit" value="Create Job">
-    </form>
-<% else %>
-    <p>There was an error. Please <a href="/">sign in</a> and try again</p>
-<% end %>
+<form method="POST" action="/jobs">
+    <p>Location: <input type="text" name="location"></p>
+    <p>Difficulty: <select name="difficulty">
+        <option value="Amateur">Amateur</option>
+        <option value="Intermediate">Intermediate</option>
+        <option value="Professional">Professional</option>
+    </select></p>
+    
+    <p>Ghost Type: <input type="text" name="ghost_type"></p>
+    <p>Date: <input type="date" name="date"></p>
+    <p>Description: </p>
+    <p><textarea name="description"></textarea></p>
+    <input type="submit" value="Create Job">
+</form>
