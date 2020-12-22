@@ -14,6 +14,7 @@ class ApplicationController < Sinatra::Base
     end
 
     helpers do 
+
         def logged_in?
             !!current_user
         end
@@ -24,6 +25,10 @@ class ApplicationController < Sinatra::Base
 
         def sanitize_params
             params.each{|key, value| value.replace(Sanitize.clean(value))}
+        end
+
+        def user_job(job_id)
+            UserJob.find_by(job_id: job_id)
         end
 
     end
