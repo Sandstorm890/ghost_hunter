@@ -1,21 +1,9 @@
 require './config/environment'
 
-class UserController < Sinatra::Base
-
-  configure do
-    enable :sessions
-    set :session_secret, SESSION_SECRET
-    set :public_folder, 'public'
-    set :views, 'app/views/user_views'
-  end
-
-  get "/" do 
-    erb :index
-  end
+class UserController < ApplicationController
 
   post "/user" do
     user = User.find_by(username: params[:username])
-    
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
       redirect "/user/#{user.id}"
@@ -25,7 +13,7 @@ class UserController < Sinatra::Base
   end
 
   get "/user/new" do
-    erb :user_new
+    erb :"/user_views/user_new"
   end
 
   post "/user/logout" do
@@ -34,8 +22,8 @@ class UserController < Sinatra::Base
   end
 
   post "/user/new" do 
-    if User.all.map{|user| user.username}.include?(params[:username])
-      erb :failure
+    if User.all.map{|user| user.username}.include?(params[:username]) || params[:name] == ""
+      erb :"../failure"
     else
       name = Sanitize.clean(params[:name])
       age = Sanitize.clean(params[:age])
@@ -51,7 +39,7 @@ class UserController < Sinatra::Base
   get "/user/:id" do
     if session[:user_id] == params[:id].to_i 
       @user = User.find(params[:id])
-      erb :user
+      erb :"/user_views/user"
     else
       redirect "/user/#{session[:user_id]}"
     end
