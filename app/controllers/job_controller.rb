@@ -67,8 +67,8 @@ class JobController < ApplicationController
         @job = Job.find(params[:id])
     end
 
-    def current_user_job
-        UserJob.find_by(job_id: params[:id])
+    def user_job
+        @user_job = UserJob.find_by(job_id: params[:id])
     end
 
 end
