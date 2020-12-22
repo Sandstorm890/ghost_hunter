@@ -25,12 +25,8 @@ class UserController < ApplicationController
     if User.all.map{|user| user.username}.include?(params[:username]) || params[:name] == ""
       erb :"../failure"
     else
-      name = Sanitize.clean(params[:name])
-      age = Sanitize.clean(params[:age])
-      years_experience = Sanitize.clean(params[:years_experience])
-      username = Sanitize.clean(params[:username])
-      password = Sanitize.clean(params[:password])
-      user = User.create(name: name, age: age, years_experience: years_experience, username: username, password: password)
+      clean_params = sanitize_params
+      user = User.create(name: clean_params[:name], age: clean_params[:age], years_experience: clean_params[:years_experience], username: clean_params[:username], password: params[:password])
       session[:user_id] = user.id
       redirect "/user/#{user.id}"
     end
@@ -38,31 +34,40 @@ class UserController < ApplicationController
 
   get "/user/:id" do
     if session[:user_id] == params[:id].to_i 
-      @user = User.find(params[:id])
+      current_user
       erb :"/user_views/user"
     else
-      redirect "/user/#{session[:user_id]}"
+      erb :failure
     end
   end
 
   delete "/user/:id" do
-    if session[:user_id] == params[:id].to_i
-      user = Helpers.current_user(session)
-      
+    if valid_user?
+      current_user
       Job.all.each do |job|
         if job.user_ids[0] == session[:user_id]
-          job.delete
+          job.destroy
         end
       end
-      UserJob.all.each do |job|
-        if job.user_id == user.id
-          job.delete
-        end
-      end
-      user.delete
+      @user.destroy
       redirect "/"
     else
-      redirect "/failure"
+      erb :failure
     end
   end
+
+  private
+
+  def valid_user?
+    if session[:user_id] == params[:id].to_i
+      true
+    else
+      false
+    end
+  end
+
+  # def current_user
+  #   @user ||=  User.find(session[:user_id]) if session[:user_id]
+  # end
+
 end
