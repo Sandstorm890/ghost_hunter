@@ -10,7 +10,7 @@ This webapp allows users (ghost hunters) to create a profile and subsequently cr
 
 Install Instructions:
 
-All required gems are listed in the Gemfile. Run 'bundle install' in your terminal with 'bundle' intalled to download the necessary dependancies.
+All required gems are listed in the Gemfile. Run 'bundle install' in your terminal with 'bundle' intalled to your system to download the necessary dependancies.
 
 Contributor's Guide:
 
