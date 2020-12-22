@@ -20,15 +20,15 @@ class ApplicationController < Sinatra::Base
         end
 
         def current_user
-           @current_user ||=  User.find(session[:user_id]) if session[:user_id]
+            @user ||=  User.find(session[:user_id]) if session[:user_id]
         end
 
         def sanitize_params
             params.each{|key, value| value.replace(Sanitize.clean(value))}
         end
 
-        def user_job(job_id)
-            UserJob.find_by(job_id: job_id)
+        def user_job(id)
+            @user_job = UserJob.find_by(job_id: id)
         end
 
     end
