@@ -7,13 +7,16 @@ class JobController < ApplicationController
             @job = Job.find(params[:id])
             erb :"/job_views/job_edit"
         else
-            erb :"../failure"
+            erb :"/failure"
         end
     end
 
     get "/jobs/new" do
-        # check if logged in
-        erb :"/job_views/job_new"
+        if logged_in?
+            erb :"/job_views/job_new"
+        else
+            erb :"/failure"
+        end
     end
     
     post "/jobs" do
