@@ -1,9 +1,11 @@
 <h1><%=@job.location%></h1>
-<% if user_job(@job.id).user_id == session[:user_id]%>
-    <h3>You posted this job</h3><br><br>
+<% if current_user? %>
+    <h3>You posted this job</h3>
 <% else %>
-    <h3>Posted by: <%=@job.users[0].username %></h3><br><br>
+    <h3>Posted by: <%=@job.users[0].username %></h3>
 <% end %>
+<br><br>
+
 <p>Difficulty: <%=@job.difficulty%></p>
 <p>Ghost Type: <%=@job.ghost_type%>
 <p>Date: <%=@job.date%></p>
@@ -13,7 +15,7 @@
 <form method="get" action="/user/<%=session[:user_id]%>">
     <p><input type="submit" value="Home"></p>
 </form>
-<% if user_job(@job.id).user_id == session[:user_id]%>
+<% if current_user? %>
     <form method="get" action="/jobs/<%=@job.id%>/edit">
         <p><input type="submit" value="Edit Job"></p>
     </form>

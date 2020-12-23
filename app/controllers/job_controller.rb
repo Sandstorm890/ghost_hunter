@@ -3,7 +3,7 @@ require './config/environment'
 class JobController < ApplicationController
 
     get "/jobs/:id/edit" do
-        if logged_in? && user_job(params[:id]).user_id == session[:user_id]
+        if logged_in? && current_user?
             current_job
             erb :"/job_views/job_edit"
         else
@@ -46,8 +46,7 @@ class JobController < ApplicationController
     end
 
     get "/jobs/:id" do
-        if Job.find_by(id: params[:id])
-            current_job
+        if current_job
             erb :"/job_views/job"
         else
             erb :failure
