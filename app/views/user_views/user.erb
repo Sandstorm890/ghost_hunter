@@ -1,30 +1,17 @@
-<h1><%= "Welcome, #{@user.name}!"%></h1><br>
+<h1><%= "Welcome, #{@user.name}!" %></h1><br>
 
 <p>Username: <%=@user.username%></p><br>
+
 <h2>Your Current Jobs:</h2>
-
-<%if @user.jobs != []%>
-
-    <% index = 0 %>
-    <p><% UserJob.all.each do |job| %>
-        <%# clean this up%>
-        <% if job.user_id == session[:user_id] %>
-            <%=index+=1%>. <a href="/jobs/<%=job.job_id%>"> <%= "#{Job.find_by(id: job.job_id).location}" %></a><br>
-        <% end %>
-        
-        
-    <% end %>
-<%else%>
-    <br><p>No Active Jobs</p><br>
-<% end %>
-<h2>Other Jobs: </h2><br>
 <% index = 0 %>
-<p><% UserJob.all.each do |job| %>
-    
-    <% if job.user_id != session[:user_id] %>
-        <%=index+=1%>. <a href="/jobs/<%=job.job_id%>"> <%= "#{Job.find_by(id: job.job_id).location}" %></a><br>
-    <% end %>
-    
+<p><% render_user_jobs.compact.each do |job| %>
+    <%=index+=1%>. <a href="/jobs/<%=job.id%>"> <%= "#{job.location}" %></a><br>
+<% end %>
+
+<h2>Other Jobs: </h2>
+<% index = 0 %>
+<p><% render_non_user_jobs.compact.each do |job| %>
+    <%=index+=1%>. <a href="/jobs/<%=job.id%>"> <%= "#{job.location}" %></a><br>
 <% end %>
 
 
