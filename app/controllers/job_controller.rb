@@ -7,7 +7,7 @@ class JobController < ApplicationController
             current_job
             erb :"/job_views/job_edit"
         else
-            erb :"/failure"
+            erb :failure
         end
     end
 
@@ -15,7 +15,7 @@ class JobController < ApplicationController
         if logged_in?
             erb :"/job_views/job_new"
         else
-            erb :"/failure"
+            erb :failure
         end
     end
 
@@ -54,14 +54,6 @@ class JobController < ApplicationController
     end
 
     private
-    def valid_owner?
-        if current_user_job.user_id == session[:user_id]
-            true
-        else
-            false
-        end
-    end
-
     def current_job
         @job = Job.find_by(id: params[:id])
     end
@@ -69,5 +61,4 @@ class JobController < ApplicationController
     def current_user_job
         @current_user_job = UserJob.find_by(job_id: current_job.id)
     end
-
 end
