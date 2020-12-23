@@ -27,7 +27,7 @@ class UserController < ApplicationController
 
   post "/user/new" do 
     if User.all.map{|user| user.username}.include?(params[:username]) || params[:name] == ""
-      erb :"../failure"
+      erb :user_create_failure
     else
       clean_params = sanitize_params
       user = User.create(name: clean_params[:name], age: clean_params[:age], years_experience: clean_params[:years_experience], username: clean_params[:username], password: params[:password])
