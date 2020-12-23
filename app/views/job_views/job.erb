@@ -1,9 +1,5 @@
 <h1><%=@job.location%></h1>
-<% if current_user? %>
-    <h3>You posted this job</h3>
-<% else %>
-    <h3>Posted by: <%=@job.users[0].username %></h3>
-<% end %>
+<h3><%=render_user%></h3>
 <br><br>
 
 <p>Difficulty: <%=@job.difficulty%></p>
