@@ -26,8 +26,10 @@ class UserController < ApplicationController
   end
 
   post "/user/new" do 
-    if User.all.map{|user| user.username}.include?(params[:username]) || params[:name] == ""
-      erb :user_create_failure
+    if params.each.any?{|key, value| value == ""}
+      erb :"/user_views/user_create_failure"
+    elsif User.all.map{|user| user.username}.include?(params[:username])
+      erb :"/user_views/username_taken"
     else
       clean_params = sanitize_params
       user = User.create(name: clean_params[:name], age: clean_params[:age], years_experience: clean_params[:years_experience], username: clean_params[:username], password: params[:password])
@@ -58,7 +60,6 @@ class UserController < ApplicationController
   end
 
   private
-
   def valid_user?
     if session[:user_id] == params[:id].to_i
       true
