@@ -27,9 +27,17 @@ class ApplicationController < Sinatra::Base
             params.each{|key, value| value.replace(Sanitize.clean(value))}
         end
 
-        def user_job(id)
-            @user_job = UserJob.find_by(job_id: id)
+        def current_user?
+            if session[:user_id] == current_user.id
+              true
+            else
+              false
+            end
         end
+
+        # def user_job(id)
+        #     @user_job = UserJob.find_by(job_id: id)
+        # end
 
     end
 end
