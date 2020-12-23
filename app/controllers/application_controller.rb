@@ -35,6 +35,14 @@ class ApplicationController < Sinatra::Base
             end
         end
 
+        def render_user
+            if current_user?
+                "You posted this job"
+            else
+                "Posted by: #{@job.users[0].username}"
+            end
+        end
+
         # def user_job(id)
         #     @user_job = UserJob.find_by(job_id: id)
         # end
