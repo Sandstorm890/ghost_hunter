@@ -10,7 +10,11 @@ class ApplicationController < Sinatra::Base
     end
 
     get "/" do
-        erb :index
+        if logged_in?
+            redirect "/user/#{session[:user_id]}"
+        else
+            erb :index
+        end
     end
 
     helpers do 
@@ -23,29 +27,43 @@ class ApplicationController < Sinatra::Base
             @user ||=  User.find(session[:user_id]) if session[:user_id]
         end
 
+        def current_user?
+            if session[:user_id] == params[:id]
+                true
+            else
+                false
+            end
+        end  
+
         def sanitize_params
             params.each{|key, value| value.replace(Sanitize.clean(value))}
-        end
-
-        def current_user?
-            if session[:user_id] == current_user.id
-              true
-            else
-              false
-            end
         end
 
         def render_user
             if current_user?
                 "You posted this job"
-            else
-                "Posted by: #{@job.users[0].username}"
+            elsif @job
+                "Posted by: #{@job.users[0].username}" 
             end
         end
 
-        # def user_job(id)
-        #     @user_job = UserJob.find_by(job_id: id)
-        # end
+        def render_non_user_jobs
+            UserJob.all.map do |job|
+                if job.user_id != session[:user_id]
+                    Job.find_by(id: job.job_id)
+                end
+            end
+            
+        end
+
+        def render_user_jobs
+            UserJob.all.map do |job|
+                if job.user_id == session[:user_id]
+                    Job.find_by(id: job.job_id)
+                end
+            end
+            
+        end
 
     end
 end
