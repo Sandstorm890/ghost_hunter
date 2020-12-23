@@ -2,6 +2,19 @@ require './config/environment'
 
 class UserController < ApplicationController
 
+  get "/user/new" do
+    erb :"/user_views/user_new"
+  end
+
+  get "/user/:id" do
+    if session[:user_id] == params[:id].to_i 
+      current_user
+      erb :"/user_views/user"
+    else
+      erb :failure
+    end
+  end
+
   post "/user" do
     user = User.find_by(username: params[:username])
     if user && user.authenticate(params[:password])
@@ -10,15 +23,6 @@ class UserController < ApplicationController
     else
       redirect "/user/new"
     end
-  end
-
-  get "/user/new" do
-    erb :"/user_views/user_new"
-  end
-
-  post "/user/logout" do
-    session.clear
-    redirect "/"
   end
 
   post "/user/new" do 
@@ -32,13 +36,9 @@ class UserController < ApplicationController
     end
   end
 
-  get "/user/:id" do
-    if session[:user_id] == params[:id].to_i 
-      current_user
-      erb :"/user_views/user"
-    else
-      erb :failure
-    end
+  post "/user/logout" do
+    session.clear
+    redirect "/"
   end
 
   delete "/user/:id" do
@@ -50,6 +50,7 @@ class UserController < ApplicationController
         end
       end
       @user.destroy
+      session.clear
       redirect "/"
     else
       erb :failure
