@@ -70,9 +70,4 @@ class JobController < ApplicationController
         @current_user_job = UserJob.find_by(job_id: current_job.id)
     end
 
-    # this might be redundant
-    # def user_job
-    #     @user_job = UserJob.find_by(job_id: params[:id])
-    # end
-
 end
