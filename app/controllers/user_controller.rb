@@ -28,7 +28,7 @@ class UserController < ApplicationController
   post "/user/new" do 
     if params.each.any?{|key, value| value == ""}
       erb :"/user_views/user_create_failure"
-    elsif User.all.map{|user| user.username}.include?(params[:username])
+    elsif User.find_by(username: Sanitize.clean(params[:username]).lstrip.chop)
       erb :"/user_views/username_taken"
     else
       clean_params = sanitize_params
