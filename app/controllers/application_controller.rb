@@ -36,10 +36,10 @@ class ApplicationController < Sinatra::Base
         end  
 
         def sanitize_params
-            params.each{|key, value| value.replace(Sanitize.clean(value).lstrip.chop)}
+            params.each{|key, value| value.replace(Sanitize.clean(value).rstrip.lstrip)}
         end
 
-        def valid_owner? # had to move this from job_controller private methods
+        def valid_owner? # had to move this from job_controller private methods to use elsewhere
             if current_user_job.user_id == session[:user_id]
                 true
             else
@@ -81,7 +81,6 @@ class ApplicationController < Sinatra::Base
             else
                 jobs
             end
-            
         end        
     end
 end
