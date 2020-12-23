@@ -2,17 +2,28 @@
 
 <p>Username: <%=@user.username%></p><br>
 
-<h2>Your Current Jobs:</h2>
-<% index = 0 %>
-<p><% render_user_jobs.compact.each do |job| %>
-    <%=index+=1%>. <a href="/jobs/<%=job.id%>"> <%= "#{job.location}" %></a><br>
-<% end %>
+<h2>Your Jobs:</h2>
+
+<% if render_user_jobs.is_a?(Array)%>
+    <% index = 0 %>
+    <p><% render_user_jobs.each do |job| %>
+        <%=index+=1%>. <a href="/jobs/<%=job.id%>"> <%= "#{job.location}" %></a><br>
+    <% end %>
+<% else %>
+    <%=render_user_jobs%>
+<% end %><br><br>
+
 
 <h2>Other Jobs: </h2>
-<% index = 0 %>
-<p><% render_non_user_jobs.compact.each do |job| %>
-    <%=index+=1%>. <a href="/jobs/<%=job.id%>"> <%= "#{job.location}" %></a><br>
-<% end %>
+
+<% if render_non_user_jobs.is_a?(Array)%>
+    <% index = 0 %>
+    <p><% render_non_user_jobs.each do |job| %>
+        <%=index+=1%>. <a href="/jobs/<%=job.id%>"> <%= "#{job.location}" %></a><br>
+    <% end %>
+<% else %>
+    <%=render_non_user_jobs%>
+<% end %><br><br>
 
 
 <form method="get" action="/jobs/new">
