@@ -15,7 +15,7 @@ class UserController < ApplicationController
     end
   end
 
-  post "/user" do
+  post "/user/login" do
     user = User.find_by(username: params[:username])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
@@ -39,7 +39,7 @@ class UserController < ApplicationController
   end
 
   post "/user/logout" do
-    session.clear
+    session.delete(:user_id)
     redirect "/"
   end
 
@@ -52,7 +52,7 @@ class UserController < ApplicationController
         end
       end
       @user.destroy
-      session.clear
+      session.delete(:user_id)
       redirect "/"
     else
       erb :failure
