@@ -7,11 +7,10 @@
 <p>Date: <%=@job.date%></p>
 <p>Job Description: <%=@job.description%><br><br>
 
-
 <form method="get" action="/user/<%=session[:user_id]%>">
     <p><input type="submit" value="Home"></p>
 </form>
-<% if current_user? %>
+<% if valid_owner? %>
     <form method="get" action="/jobs/<%=@job.id%>/edit">
         <p><input type="submit" value="Edit Job"></p>
     </form>
