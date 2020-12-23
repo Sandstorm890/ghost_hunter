@@ -7,7 +7,7 @@ class UserController < ApplicationController
   end
 
   get "/user/:id" do
-    if session[:user_id] == params[:id].to_i 
+    if logged_in? && valid_user? 
       current_user
       erb :"/user_views/user"
     else
