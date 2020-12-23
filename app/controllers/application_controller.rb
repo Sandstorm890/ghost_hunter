@@ -36,7 +36,7 @@ class ApplicationController < Sinatra::Base
         end  
 
         def sanitize_params
-            params.each{|key, value| value.replace(Sanitize.clean(value))}
+            params.each{|key, value| value.replace(Sanitize.clean(value).lstrip.chop)}
         end
 
         def valid_owner? # had to move this from job_controller private methods
