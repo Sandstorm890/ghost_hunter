@@ -10,7 +10,7 @@ class ApplicationController < Sinatra::Base
     end
 
     get "/" do
-        if params[:user_id]
+        if logged_in? # session would be cleared when set to 'params[:user_id]'
             redirect "/user/#{session[:user_id]}"
         else
             erb :index
@@ -40,10 +40,18 @@ class ApplicationController < Sinatra::Base
         end
 
         def render_user_name
-            if current_user?
+            if valid_owner?
                 "You posted this job"
             elsif @job
                 "Posted by: #{@job.users[0].username}" 
+            end
+        end
+
+        def valid_owner? # had to move this from job_controller private methods
+            if current_user_job.user_id == session[:user_id]
+                true
+            else
+                false
             end
         end
 
@@ -74,8 +82,6 @@ class ApplicationController < Sinatra::Base
             else
                 jobs
             end
-            
         end
-
     end
 end
