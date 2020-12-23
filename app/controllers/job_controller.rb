@@ -29,7 +29,7 @@ class JobController < ApplicationController
 
     post "/jobs" do
         if params[:location] == ""
-            erb :job_create_failure
+            erb :"/job_views/job_create_failure"
         else
             clean_params = sanitize_params # is this more efficient than calling 'sanitize_params' a bunch in the arguments?
             job = Job.create(location: clean_params[:location], difficulty: clean_params[:difficulty], ghost_type: params[:ghost_type], date: params[:date], description: clean_params[:description])
