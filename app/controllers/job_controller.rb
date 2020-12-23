@@ -3,7 +3,7 @@ require './config/environment'
 class JobController < ApplicationController
 
     get "/jobs/:id/edit" do
-        if logged_in? && current_user?
+        if logged_in? && valid_owner?
             current_job
             erb :"/job_views/job_edit"
         else
@@ -18,7 +18,15 @@ class JobController < ApplicationController
             erb :"/failure"
         end
     end
-    
+
+    get "/jobs/:id" do
+        if current_job
+            erb :"/job_views/job"
+        else
+            erb :failure
+        end
+    end
+
     post "/jobs" do
         if params[:location] == ""
             erb :job_create_failure
@@ -38,24 +46,16 @@ class JobController < ApplicationController
 
     delete "/jobs/:id" do
         if valid_owner?
-            user_job.destroy
+            @job.destroy
         else
             erb :failure
         end
         redirect "/user/#{session[:user_id]}"
     end
 
-    get "/jobs/:id" do
-        if current_job
-            erb :"/job_views/job"
-        else
-            erb :failure
-        end
-    end
-
     private
     def valid_owner?
-        if @job && current_user_job.user_id == session[:user_id]
+        if current_user_job.user_id == session[:user_id]
             true
         else
             false
@@ -63,11 +63,16 @@ class JobController < ApplicationController
     end
 
     def current_job
-        @job = Job.find(params[:id])
+        @job = Job.find_by(id: params[:id])
     end
 
-    def user_job
-        @user_job = UserJob.find_by(job_id: params[:id])
+    def current_user_job
+        @current_user_job = UserJob.find_by(job_id: current_job.id)
     end
+
+    # this might be redundant
+    # def user_job
+    #     @user_job = UserJob.find_by(job_id: params[:id])
+    # end
 
 end
