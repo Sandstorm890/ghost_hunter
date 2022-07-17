@@ -4,7 +4,12 @@ Zayne Goering
 
 -----------------------------------------------
 
+Video Walkthrough:
+https://youtu.be/Ck_NDfi82RQ
+
+
 Description:
+
 
 This webapp allows users (ghost hunters) to create a profile and subsequently create and view other 'jobs' as well as modify existing 'jobs' that belong to them. 
 
